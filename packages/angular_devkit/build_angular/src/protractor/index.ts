@@ -26,8 +26,14 @@ interface JasmineNodeOpts {
   };
 }
 
+interface CucumberOpts {
+  cucumberOpts: {
+    name?: string;
+  }
+}
+
 function runProtractor(root: string, options: ProtractorBuilderOptions): Promise<BuilderOutput> {
-  const additionalProtractorConfig: Partial<ProtractorBuilderOptions> & Partial<JasmineNodeOpts> = {
+  const additionalProtractorConfig: Partial<ProtractorBuilderOptions> & Partial<JasmineNodeOpts> & Partial<CucumberOpts> = {
     baseUrl: options.baseUrl,
     specs: options.specs && options.specs.length ? options.specs : undefined,
     suite: options.suite,
@@ -35,6 +41,9 @@ function runProtractor(root: string, options: ProtractorBuilderOptions): Promise
       grep: options.grep,
       invertGrep: options.invertGrep,
     },
+    cucumberOpts: {
+      name: options.grep,
+    }
   };
 
   // TODO: Protractor manages process.exit itself, so this target will allways quit the
